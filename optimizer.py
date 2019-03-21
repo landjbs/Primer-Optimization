@@ -65,3 +65,24 @@ def optimize(pos_seq, prob_scale=10, vis=True):
     else:
       cur_seq = test_seq
       cur_loss = step_loss
+
+def find_primers(seq_dict, vis=True):
+  """
+  Args: dict of possible primer sequence and reading direction of form {"ATGCA":"Forward"}
+  Returns: optimized primers in list of form [forwards, backwards]
+  """
+  primer_list = []
+  for seq in seq_dict:
+    if seq_dict[seq] == "Backward":
+      checked_seq = seq[::-1]
+    else:
+      checked_seq = seq
+
+    # optimize primers
+    primer = optimize(checked_seq)
+    primer_tm, primer_prob = analyze_seq(primer)
+
+    if vis == True:
+        print(f"{seq_dict[seq]} Primer:\n{primer}\nTm: {primer_tm} | Prob: {round(primer_prob, 10)} | Length: {len(primer)}\n{'-'*30}")
+    primer_list.append(primer)
+  return primer_list
