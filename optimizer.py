@@ -27,9 +27,9 @@ def analyze_seq(seq):
 	prob = calc_prob(len(seq))
 	return tm, prob
 
-def conguate_bases(seq):
+def conjugate_bases(seq):
 	"""
-	Finds conguate bases of a sequence NEED TO BE FINISHED
+	Finds conjugate bases of a sequence NEED TO BE FINISHED
 	"""
 	return seq.translate(["A","B"])
 
@@ -54,10 +54,11 @@ def optimize(pos_seq, prob_scale=10, vis=True):
 	Args: string of max possible length for primer and scaling constant for probability weight
 	Returns: primer that optimizes sum of temp_loss and probability_loss
 	"""
+	conj_pos_seq = conguate_bases(pos_seq)
 	cur_seq = ""
 	cur_loss = math.inf
 	# stepwise descent and analysis
-	for num_step, step_base in enumerate(pos_seq):
+	for num_step, step_base in enumerate(conj):
 		test_seq = cur_seq + step_base
 		step_tm, step_prob = analyze_seq(test_seq)
 		step_loss = temp_loss(step_tm) + prob_loss(step_prob, prob_scale)
