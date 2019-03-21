@@ -54,11 +54,12 @@ def optimize(pos_seq, prob_scale=10, vis=True):
 	Args: string of max possible length for primer and scaling constant for probability weight
 	Returns: primer that optimizes sum of temp_loss and probability_loss
 	"""
-	conj_pos_seq = conguate_bases(pos_seq)
+	# convert to conjugate sequence and init cur_seq and cur_loss
+	conj_pos_seq = conjugate_bases(pos_seq)
 	cur_seq = ""
 	cur_loss = math.inf
 	# stepwise descent and analysis
-	for num_step, step_base in enumerate(conj):
+	for num_step, step_base in enumerate(conj_pos_seq):
 		test_seq = cur_seq + step_base
 		step_tm, step_prob = analyze_seq(test_seq)
 		step_loss = temp_loss(step_tm) + prob_loss(step_prob, prob_scale)
@@ -100,7 +101,7 @@ def find_primers(seq_dict, vis=True):
 	"""
 	primer_list = []
 	for seq in seq_dict:
-		if seq_dict[seq] == "Backward":
+		if (seq_dict[seq]).lower() in ["backward","b"]:
 			checked_seq = seq[::-1]
 		else:
 			checked_seq = seq
