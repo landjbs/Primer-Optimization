@@ -1,5 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib import cm
+
 import math
 
 # SEQUENCE ANALYSIS
@@ -64,15 +67,26 @@ def visualize_descent(seq):
 	"""
 	Plots 3D gradient two loss funcitons
 	"""
-	temp_losses, prob_losses, cur = [], [], ""
+	temp_losses, prob_losses, total_losses, cur = [], [], [], ""
 	for step in seq:
+		# calc current losses
 		tm, prob = analyze_seq(cur)
-		temp_losses.append(temp_loss(tm))
-		prob_losses.append(prob_loss(prob))
+		cur_temp_loss, cur_prob_loss = temp_loss(tm), prob_loss(prob)
+		# add to respective lists and progress a step
+		temp_losses.append(cur_temp_loss)
+		prob_losses.append(cur_prob_loss)
+		total_losses.append(cur_temp_loss + cur_prob_loss)
 		cur += step
-	plt.plot(temp_losses)
-	plt.plot(prob_losses)
-	plt.show()
+
+	fig = plt.figure()
+	ax = fig.gca(projection='3d')
+	ax.set_zlim(-1.01, 1.01)
+
+	surf = ax.plot_surface(temp_losses, prob_losses, total_losses, cmap=cm.coolwarm,
+                       linewidth=0, antialiased=False)
+
+	fig.colorbar(surf, shrink=0.5, aspect=5)
+
 
 def find_primers(seq_dict, vis=True):
 	"""
