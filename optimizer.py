@@ -60,6 +60,19 @@ def optimize(pos_seq, prob_scale=10, vis=True):
 			cur_seq = test_seq
 			cur_loss = step_loss
 
+def visualize_descent(seq):
+	"""
+	Plots 3D gradient two loss funcitons
+	"""
+	temp_losses, prob_losses, cur = [], [], ""
+	for step in seq:
+		tm, prob = analyze_seq(cur)
+		temp_losses.append(temp_loss(tm))
+		prob_lesses.append(prob_loss(prob,100))
+		cur += seq
+	plt.meshgrid(temp_losses, prob_losses)
+	plt.show()
+
 def find_primers(seq_dict, vis=True):
 	"""
 	Args: dict of possible primer sequence and reading direction of form {"ATGCA":"Forward"}
