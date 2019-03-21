@@ -26,3 +26,19 @@ def analyze_seq(seq):
   prob = calc_prob(len(seq))
 
   return tm, prob
+
+# LOSS FUNCTIONS
+def temp_loss(tm, temp_range=(65,75)):
+  """
+  Args: current melting temp, optimal range tuple
+  Returns: mean squared loss of current tm compared mean temp_range
+  """
+  return (np.mean(temp_range) - tm) ** 2
+
+
+def prob_loss(prob, scaling_constant):
+  """
+  Args: probability occurance
+  Returns: scaled probability
+  """
+  return prob * scaling_constant
