@@ -27,6 +27,12 @@ def analyze_seq(seq):
 	prob = calc_prob(len(seq))
 	return tm, prob
 
+def conguate_bases(seq):
+	"""
+	Finds conguate bases of a sequence NEED TO BE FINISHED
+	"""
+	return seq.translate(["A","B"])
+
 # LOSS FUNCTIONS
 def temp_loss(tm, temp_range=(65,75)):
 	"""
@@ -111,4 +117,4 @@ primers = find_primers({input("Sequence 1:\n"):input("Forward or Backward?\n"), 
 
 print(primers)
 
-# {"ATGTTTTTCAACAGACTAAGCGC" "TGACGATGGTGATTATTTCGAACACGACGAATTGTAG"
+# "ATGTTTTTCAACAGACTAAGCGC" "TGACGATGGTGATTATTTCGAACACGACGAATTGTAG"
