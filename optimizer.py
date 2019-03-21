@@ -103,7 +103,8 @@ def find_primers(seq_dict, vis=True):
 		# visualization
 		if vis:
 			print(f"{seq_dict[seq]} Primer:\n{primer}\nTm: {primer_tm} | Prob: {round(primer_prob, 10)} | Length: {len(primer)}\n{'-'*30}")
+			visualize_descent(checked_seq)
 		primer_list.append(primer)
-		return primer_list
+	return primer_list
 
-visualize_descent("TGACGATGGTGATTATTTCGAACACGACGAATTGTAG")
+find_primers({"ATGTTTTTCAACAGACTAAGCGC":"Forward", "TGACGATGGTGATTATTTCGAACACGACGAATTGTAG":"Backward"})
