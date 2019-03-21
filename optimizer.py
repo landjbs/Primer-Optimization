@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import math
 
 # SEQUENCE ANALYSIS
-def calc_prob(seq_length, genome_length):
+def calc_prob(seq_length, genome_length=12000000):
 	"""
 	Args: length of sequence, length of genome
 	Returns: probability of sequence occuring arbitrarily in genome
@@ -33,9 +33,9 @@ def temp_loss(tm, temp_range=(65,75)):
 	"""
 	return (np.mean(temp_range) - tm) ** 2
 
-def prob_loss(prob, scaling_constant):
+def prob_loss(prob, scaling_constant=5000):
 	"""
-	Args: probability occurance
+	Args: probability sequence of occurance
 	Returns: scaled probability
 	"""
 	return prob * scaling_constant
@@ -48,7 +48,7 @@ def optimize(pos_seq, prob_scale=10, vis=True):
 	"""
 	cur_seq = ""
 	cur_loss = math.inf
-
+	# stepwise descent and analysis
 	for num_step, step_base in enumerate(pos_seq):
 		test_seq = cur_seq + step_base
 		step_tm, step_prob = analyze_seq(test_seq)
@@ -68,9 +68,10 @@ def visualize_descent(seq):
 	for step in seq:
 		tm, prob = analyze_seq(cur)
 		temp_losses.append(temp_loss(tm))
-		prob_lesses.append(prob_loss(prob,100))
-		cur += seq
-	plt.meshgrid(temp_losses, prob_losses)
+		prob_losses.append(prob_loss(prob))
+		cur += step
+	plt.plot(temp_losses)
+	plt.plot(prob_losses)
 	plt.show()
 
 def find_primers(seq_dict, vis=True):
@@ -92,3 +93,5 @@ def find_primers(seq_dict, vis=True):
 			print(f"{seq_dict[seq]} Primer:\n{primer}\nTm: {primer_tm} | Prob: {round(primer_prob, 10)} | Length: {len(primer)}\n{'-'*30}")
 		primer_list.append(primer)
 		return primer_list
+
+visualize_descent("TGACGATGGTGATTATTTCGAACACGACGAATTGTAG")
