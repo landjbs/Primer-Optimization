@@ -19,7 +19,7 @@ def analyze_seq(seq):
   numAT = seq.count("A") + seq.count("T")
   numGC = seq.count("G") + seq.count("C")
   if numAT + numGC != len(seq):
-    raise ValueError("Invalid Sequence")
+	raise ValueError("Invalid Sequence")
   tm = (numGC * 4) + (numAT * 2)
   # calc probabilitiy found in genome
   prob = calc_prob(len(seq))
@@ -51,17 +51,17 @@ def optimize(pos_seq, prob_scale=10, vis=True):
 
   for num_step, step_base in enumerate(pos_seq):
 
-    test_seq = cur_seq + step_base
-    step_tm, step_prob = analyze_seq(test_seq)
-    step_loss = temp_loss(step_tm) + prob_loss(step_prob, prob_scale)
+	test_seq = cur_seq + step_base
+	step_tm, step_prob = analyze_seq(test_seq)
+	step_loss = temp_loss(step_tm) + prob_loss(step_prob, prob_scale)
 
-    print(f"Cur: {cur_loss}; Step: {step_loss}")
+	print(f"Cur: {cur_loss}; Step: {step_loss}")
 
-    if step_loss > cur_loss or num_step + 1 == len(pos_seq):
-      return(cur_seq)
-    else:
-      cur_seq = test_seq
-      cur_loss = step_loss
+	if step_loss > cur_loss or num_step + 1 == len(pos_seq):
+	  return(cur_seq)
+	else:
+	  cur_seq = test_seq
+	  cur_loss = step_loss
 
 def find_primers(seq_dict, vis=True):
   """
@@ -70,16 +70,15 @@ def find_primers(seq_dict, vis=True):
   """
   primer_list = []
   for seq in seq_dict:
-    if seq_dict[seq] == "Backward":
-      checked_seq = seq[::-1]
-    else:
-      checked_seq = seq
-
-    # optimize primers
-    primer = optimize(checked_seq)
-    primer_tm, primer_prob = analyze_seq(primer)
-
-    if vis == True:
-        print(f"{seq_dict[seq]} Primer:\n{primer}\nTm: {primer_tm} | Prob: {round(primer_prob, 10)} | Length: {len(primer)}\n{'-'*30}")
-    primer_list.append(primer)
+	if seq_dict[seq] == "Backward":
+	  checked_seq = seq[::-1]
+	else:
+	  checked_seq = seq
+	# optimize primers
+	primer = optimize(checked_seq)
+	primer_tm, primer_prob = analyze_seq(primer)
+	# visualization
+	if vis:
+		print(f"{seq_dict[seq]} Primer:\n{primer}\nTm: {primer_tm} | Prob: {round(primer_prob, 10)} | Length: {len(primer)}\n{'-'*30}")
+	primer_list.append(primer)
   return primer_list
