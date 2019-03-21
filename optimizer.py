@@ -107,4 +107,8 @@ def find_primers(seq_dict, vis=True):
 		primer_list.append(primer)
 	return primer_list
 
-find_primers({"ATGTTTTTCAACAGACTAAGCGC":"Forward", "TGACGATGGTGATTATTTCGAACACGACGAATTGTAG":"Backward"})
+pos_seq = {input("Sequence 1:\n"):input("Forward or Backward?\n"), input("Sequence 2\n"):input("Forward or Backward?\n")}
+
+find_primers(pos_seq)
+
+# {"ATGTTTTTCAACAGACTAAGCGC" "TGACGATGGTGATTATTTCGAACACGACGAATTGTAG"
