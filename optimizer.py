@@ -42,3 +42,26 @@ def prob_loss(prob, scaling_constant):
   Returns: scaled probability
   """
   return prob * scaling_constant
+
+# OPTIMIZATION FUNCTIONS
+def optimize(pos_seq, prob_scale=10, vis=True):
+  """
+  Args: string of max possible length for primer and scaling constant for probability weight
+  Returns: primer that optimizes sum of temp_loss and probability_loss
+  """
+  cur_seq = ""
+  cur_loss = math.inf
+
+  for num_step, step_base in enumerate(pos_seq):
+
+    test_seq = cur_seq + step_base
+    step_tm, step_prob = analyze_seq(test_seq)
+    step_loss = temp_loss(step_tm) + prob_loss(step_prob, prob_scale)
+
+    print(f"Cur: {cur_loss}; Step: {step_loss}")
+
+    if step_loss > cur_loss or num_step + 1 == len(pos_seq):
+      return(cur_seq)
+    else:
+      cur_seq = test_seq
+      cur_loss = step_loss
