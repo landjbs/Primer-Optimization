@@ -2,7 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib import cm
-
 import math
 
 # SEQUENCE ANALYSIS
@@ -77,16 +76,15 @@ def visualize_descent(seq):
 		prob_losses.append(cur_prob_loss)
 		total_losses.append(cur_temp_loss + cur_prob_loss)
 		cur += step
-
-	fig = plt.figure()
-	ax = fig.gca(projection='3d')
-	ax.set_zlim(-1.01, 1.01)
-
-	surf = ax.plot_surface(temp_losses, prob_losses, total_losses, cmap=cm.coolwarm,
-                       linewidth=0, antialiased=False)
-
-	fig.colorbar(surf, shrink=0.5, aspect=5)
-
+	# plotting
+	plt.plot(temp_losses)
+	plt.plot(prob_losses)
+	plt.plot(total_losses)
+	plt.legend(["Temp Losses","Prob Losses","Total Losses"])
+	plt.title("Optimization Metrics")
+	plt.xlabel("Length Along Input")
+	plt.ylabel("Loss")
+	plt.show()
 
 def find_primers(seq_dict, vis=True):
 	"""
