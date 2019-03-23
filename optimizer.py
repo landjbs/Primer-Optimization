@@ -48,29 +48,31 @@ def prob_loss(prob, scaling_constant=5000):
 
 # OPTIMIZATION FUNCTIONS
 def optimize(pos_seq, prob_scale=10, vis=True):
-	"""
-	Args: string of max possible length for primer and scaling constant for probability weight
-	Returns: primer that optimizes sum of temp_loss and probability_loss
-	"""
-	# convert to conjugate sequence and init cur_seq and cur_loss
-	conj_pos_seq = conjugate_bases(pos_seq)
-	cur_seq = ""
-	cur_loss = math.inf
+  """
+  Args: string of max possible length for primer and scaling constant for probability weight
+  Returns: primer that optimizes sum of temp_loss and probability_loss
+  """
+  # convert to complementary sequence and init cur_seq and cur_loss
+  comp_pos_seq = comp_bases(pos_seq)
+  cur_seq = ""
+  cur_loss = math.inf
 	# stepwise descent and analysis
-	for num_step, step_base in enumerate(conj_pos_seq):
-		test_seq = cur_seq + step_base
-		step_tm, step_prob = analyze_seq(test_seq)
-		step_loss = temp_loss(step_tm) + prob_loss(step_prob, prob_scale)
+
+  for num_step, step_base in enumerate(comp_pos_seq):
+    test_seq = cur_seq + step_base
+    step_tm, step_prob = analyze_seq(test_seq)
+    step_loss = temp_loss(step_tm) + prob_loss(step_prob, prob_scale)
 		# choose if cur_seq is optimized with step size 1
-	    if (step_loss > cur_loss):
-			return (cur_seq)
+    if (step_loss > cur_loss):
+      return cur_seq
 
-	    elif (num_step + 1) == len(pos_seq):
-			return (test_seq)
+    elif (num_step + 1) == len(pos_seq):
+      return test_seq
 
-	    else:
-			cur_seq = test_seq
-			cur_loss = step_loss
+    else:
+      cur_seq = test_seq
+      cur_loss = step_loss
+
 
 def visualize_descent(seq):
 	"""
