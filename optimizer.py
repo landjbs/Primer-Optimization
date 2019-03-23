@@ -25,11 +25,11 @@ def analyze_seq(seq):
 	prob = calc_prob(len(seq))
 	return tm, prob
 
-def conjugate_bases(seq):
+def comp_bases(seq):
 	"""
-	Finds conjugate bases of a sequence NEED TO BE FINISHED
+	Finds complementatry bases of a sequence
 	"""
-	return seq.translate(["A","B"])
+	return seq.translate(bytes.maketrans(b"ATGCatgc", b"TACGtacg"))
 
 # LOSS FUNCTIONS
 def temp_loss(tm, temp_range=(65,75)):
@@ -62,9 +62,13 @@ def optimize(pos_seq, prob_scale=10, vis=True):
 		step_tm, step_prob = analyze_seq(test_seq)
 		step_loss = temp_loss(step_tm) + prob_loss(step_prob, prob_scale)
 		# choose if cur_seq is optimized with step size 1
-		if step_loss > cur_loss or num_step + 1 == len(pos_seq):
-			return(cur_seq)
-		else:
+	    if (step_loss > cur_loss):
+			return (cur_seq)
+
+	    elif (num_step + 1) == len(pos_seq):
+			return (test_seq)
+
+	    else:
 			cur_seq = test_seq
 			cur_loss = step_loss
 
