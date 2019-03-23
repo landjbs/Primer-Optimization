@@ -119,7 +119,7 @@ def find_primers(seq_dict, vis=True):
 		primer_list.append(primer)
 	return primer_list
 
-primers = find_primers({input("Sequence 1:\n"):input("Forward or Backward?\n"), input("Sequence 2:\n"):input("Forward or Backward?\n")})
+primers = find_primers({input("Sequence 1:\n").upper():input("Forward or Backward?\n"), input("Sequence 2:\n").upper():input("Forward or Backward?\n")})
 
 print(primers)
 
