@@ -1,7 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib import cm
 import math
 
 # SEQUENCE ANALYSIS
@@ -110,7 +108,7 @@ def find_primers(seq_dict, vis=True):
 		primer_tm, primer_prob = analyze_seq(primer)
 		# visualization
 		if vis:
-			print(f"{seq_dict[seq]} Primer:\n{primer}\nTm: {primer_tm} | Prob: {round(primer_prob, 10)} | Length: {len(primer)}\n{'-'*30}")
+			print(f"\n{seq_dict[seq]} primer:\n{primer}\nTm: {primer_tm} | prob: {round(primer_prob, 10)} | length: {len(primer)}\n{'-'*30}")
 			visualize_descent(checked_seq)
 		primer_list.append(primer)
 	return primer_list
